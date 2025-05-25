@@ -1,0 +1,3 @@
+%%{init:{'theme':'base', 'themeVariables':{'fontSize':'25px'}}}%%
+graph TD
+A[测试节点] --> B[结果展示]

@@ -1,0 +1,50 @@
+<html>
+	<body>
+		<script src="./lib/mermaid.min.js"></script>
+        <style>
+            .mermaid text {
+                font-size: 24px !important;
+                font-family: "Microsoft Yahei" !important;
+              }
+            .mermaid .node text {
+              font-size: 24px !important;
+            }
+            .mermaid .node rect {
+              min-width: 180px !important;  
+              padding: 10px 20px !important; 
+            }
+            .mermaid {
+              background: white;
+            }
+        </style>
+		<div class="mermaid">
+      %% 执行阶段时序图
+      sequenceDiagram
+      participant ID/EX寄存器
+      participant 前递单元
+      participant ALU
+      participant MEM地址生成
+      participant EX/MEM寄存器
+      participant 时钟
+      
+      Note over ID/EX寄存器,前递单元: 初始状态：操作数就绪
+      时钟 ->> ID/EX寄存器: 上升沿触发
+      par 并行操作
+          ID/EX寄存器 ->> 前递单元: 发送rs1/rs2数据
+          ID/EX寄存器 ->> ALU: 操作码和立即数
+      end
+      前递单元-->>ALU: 前递选择信号
+      alt 操作数选择
+          ALU ->> ALU: 使用寄存器值
+      else
+          ALU ->> ALU: 使用立即数
+      end
+      ALU ->> EX/MEM寄存器: 写入运算结果
+      MEM地址生成 ->> EX/MEM寄存器: 存储地址
+      loop 每个时钟周期
+          时钟 ->> 前递单元: 持续监测数据冒险
+      end
+      Note over ALU,EX/MEM寄存器: 计算结果保持至下一时钟沿
+		</div>
+	</body>
+</html>
